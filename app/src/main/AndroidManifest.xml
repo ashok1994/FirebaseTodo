@@ -16,7 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".UserDashboardActivity"
+            android:label="@string/title_activity_user_dashboard"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".profile.ProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">FirebaseTodo</string>
+    <string name="app_name">Sharedo</string>
     <string name="facebook_application_id" translatable="false">1832454430130748</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb1832454430130748</string>"
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1832454430130748</string>
+    <string name="title_activity_user_dashboard">Dashboard</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Sharedo</string>
+    <string name="nav_header_subtitle">User name</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>"
 </resources>

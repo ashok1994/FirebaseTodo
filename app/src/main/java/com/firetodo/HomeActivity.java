@@ -9,6 +9,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.lang.annotation.Target;
 import java.util.Arrays;
 
 public class HomeActivity extends AppCompatActivity {
@@ -18,6 +19,24 @@ public class HomeActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
 
 
+    private void openSigninActivity(){
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(Arrays.asList(
+                                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                                new AuthUI.IdpConfig.GoogleBuilder().build()
+                        ))
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    private void openDashboardActivty(){
+        Intent intent = new Intent(this, UserDashboardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onStart () {
@@ -25,25 +44,9 @@ public class HomeActivity extends AppCompatActivity {
         // Check if user is sign in (non null) and update ui accordingly
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            Log.d(TAG, "Logged in");
-            Log.d(TAG, currentUser.getUid());
-            Log.d(TAG + "PhoneNumber", currentUser.getPhoneNumber());
-            Log.d(TAG + "Email", currentUser.getEmail().isEmpty() ? "Email not found" : currentUser.getEmail());
-            Log.d(TAG + "Display Name",  currentUser.getDisplayName().isEmpty() ? "display name not found" : currentUser.getDisplayName());
-//            Log.d( TAG , currentUser.);
+            openDashboardActivty();
         } else {
-            Log.d(TAG, "Opening signin activity");
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(Arrays.asList(
-                                    new AuthUI.IdpConfig.EmailBuilder().build(),
-                                    new AuthUI.IdpConfig.PhoneBuilder().build(),
-                                    new AuthUI.IdpConfig.FacebookBuilder().build(),
-                                    new AuthUI.IdpConfig.GoogleBuilder().build()
-                            ))
-                            .build(),
-                    RC_SIGN_IN);
+            openSigninActivity();
         }
     }
 
@@ -58,12 +61,14 @@ public class HomeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RC_SIGN_IN){
-            checkForUserSignIn(resultCode, data);
+            if( resultCode == RESULT_OK){
+                openDashboardActivty();
+            } else{
+                Log.d(TAG, "Error");
+
+            }
         }
     }
 
-    private void checkForUserSignIn(int resultCode, Intent data) {
-        Log.d(TAG, "resultCode "+ resultCode);
-        Log.d(TAG, data.toString());
-    }
+
 }
